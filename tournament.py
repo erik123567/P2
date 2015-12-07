@@ -35,10 +35,9 @@ def countPlayers():
     conn = connect()
     c = conn.cursor()
     c.execute("SELECT COUNT(id) from players;")
-    result = c.fetchall()
+    result = c.fetchone()
     conn.close()
-    assert len(result) == 1
-    return int(result[0][0])
+    return int(result[0])
     
 
 
@@ -51,10 +50,11 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-
+    #Bleaching to prevent SQL injection attacks
+    bleached = bleach.clean(name, strip=True)
     conn = connect()
     c = conn.cursor()
-    c.execute("INSERT INTO players (name) VALUES (%s)", (name,))
+    c.execute("INSERT INTO players (name) VALUES (%s)", (bleached,))
     conn.commit() 
     conn.close()
 
@@ -72,7 +72,7 @@ def playerStandings():
         matches: the number of matches the player has played
     """
     
-
+    
     
 
 
@@ -83,6 +83,12 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+
+    conn = connect()
+    c = conn.cursor()
+    c.execute("INSERT INTO matches (winner,loser) VALUES (%s,%s)", (winner,loser,))
+    conn.commit()
+    conn.close()
  
  
 def swissPairings():

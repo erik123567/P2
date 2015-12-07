@@ -6,13 +6,27 @@
 -- You can write comments in this file by starting them with two dashes, like
 -- these lines here.
 
+
+-- Drop tournament database if it exists
+DROP DATABASE IF EXISTS tournament;
+
+-- Create Database 'Tournament'
 CREATE DATABASE tournament;
+
 \c tournament;
 
-CREATE TABLE players (id serial primary key, name varchar(30) not null);
+--Drop players and matches tables--
+DROP TABLE IF EXISTS matches;
+DROP TABLE IF EXISTS players;
 
-CREATE TABLE matches  ( id serial primary key,
-                        winner_id int,
-                        loser_id int,
-                        foreign key (winner_id) references players(id),
-                        foreign key (loser_id) references players(id));
+
+
+
+
+
+CREATE TABLE players (id serial primary key, name varchar(30) NOT NULL);
+
+CREATE TABLE matches  (match_id serial primary key,
+                        winner_id int references players(id),
+                        loser_id int references players(id));
+                        
