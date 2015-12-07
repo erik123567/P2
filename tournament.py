@@ -72,9 +72,12 @@ def playerStandings():
         matches: the number of matches the player has played
     """
     
-    
-    
-
+    conn = connect()
+    c = conn.cursor()
+    c.execute("SELECT * FROM standings")
+    standings = c.fetchall()
+    conn.close()
+    return standings;
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
@@ -86,7 +89,7 @@ def reportMatch(winner, loser):
 
     conn = connect()
     c = conn.cursor()
-    c.execute("INSERT INTO matches (winner,loser) VALUES (%s,%s)", (winner,loser,))
+    c.execute("INSERT INTO matches (winner_id,loser_id) VALUES (%s,%s)", (winner,loser,))
     conn.commit()
     conn.close()
  
