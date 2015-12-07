@@ -1,4 +1,4 @@
-
+--This file contains the setup and tables required for the tournament module
 
 
 -- Drop tournament database if it exists
@@ -6,8 +6,8 @@ DROP DATABASE IF EXISTS tournament;
 
 -- Create Database 'Tournament'
 CREATE DATABASE tournament;
-
-\c tournament;
+--Connect to tournament
+\connect tournament;
 
 --Drop players and matches tables
 DROP TABLE IF EXISTS matches;
@@ -28,6 +28,7 @@ CREATE VIEW standings(id,name,wins,matches) AS
 	SELECT players.id as id, 
 		players.name as name,
 		(SELECT count(*) FROM matches WHERE players.id = matches.winner_id) as wins,
- 		(SELECT count(*) FROM matches WHERE players.id = matches.loser_id OR players.id = matches.winner_id) as matches
+ 		(SELECT count(*) FROM matches WHERE players.id = matches.loser_id OR 
+		players.id = matches.winner_id) as matches
 	FROM players
 	ORDER BY wins DESC;		

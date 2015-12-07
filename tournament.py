@@ -50,7 +50,7 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-    #Bleaching to prevent SQL injection attacks
+    # Bleaching to prevent SQL injection attacks
     bleached = bleach.clean(name, strip=True)
     conn = connect()
     c = conn.cursor()
@@ -109,7 +109,7 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-    # a list of all the players in order by win
+    # a list of all the players in ordered by wins
     standings = playerStandings()
     results = []
     for i in range(0,len(standings)):
